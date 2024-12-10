@@ -9,7 +9,7 @@ use anchor_spl::{
 pub fn mint_tokens_internal<'info>(
     mint_account: &InterfaceAccount<'info, Mint>,
     token_accoınt: &InterfaceAccount<'info, TokenAccount>,
-    token_program: &InterfaceAccount<'info, Token2022>,
+    token_program: &Program<'info, Token2022>,
     bump: u8,
     amount: u64,
 ) -> Result<()> {
@@ -23,6 +23,24 @@ pub fn mint_tokens_internal<'info>(
                 authority: mint_account.to_account_info(),
             },
             signer_seeds,
+        ),
+        amount,
+    )
+}
+
+pub fn deposit_sol_internal<'info>(
+    from: &Signer<'info>,
+    to: SystemAccount<'info>,
+    system_program: &Program<'info, System>,
+    amount: u64,
+) -> Result<()> {
+    transfer(
+        CpiContext::new(
+            system_program.to_account_info(),
+            Transfer {
+                from: from.to_account_info(),
+                to: to.to_account_info(),
+            },
         ),
         amount,
     )
