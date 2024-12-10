@@ -30,7 +30,7 @@ pub fn mint_tokens_internal<'info>(
 
 pub fn deposit_sol_internal<'info>(
     from: &Signer<'info>,
-    to: SystemAccount<'info>,
+    to: &SystemAccount<'info>,
     system_program: &Program<'info, System>,
     amount: u64,
 ) -> Result<()> {
